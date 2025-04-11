@@ -1,0 +1,28 @@
+---
+interface Props {
+  name: string;
+  url: string;
+  withAudio: boolean;
+}
+const { name, url, withAudio } = Astro.props;
+
+const id = url.split("/").at(-2);
+const audioSrc = `https://raw.githubusercontent.com/PokeAPI/cries/main/cries/pokemon/latest/${id}.ogg`;
+const imgSrc = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${id}.png`;
+---
+
+<a
+  href=`pokemons/${name}`
+  class=`rounded-2xl flex flex-col justify-center items-center p-2 border-2 border-purple-400  transition-transform ${!withAudio ? 'cursor-pointer hover:-translate-2 ': 'cursor-default'}`
+>
+  <img transition:name=`card-${name}` src={imgSrc} alt={name} />
+  <span class="capitalize">{name}</span>
+  {
+    withAudio && (
+      <audio controls class="mt-5">
+        <source src={audioSrc} type="audio/ogg" />
+        Your browser does not support the audio element
+      </audio>
+    )
+  }
+</a>
