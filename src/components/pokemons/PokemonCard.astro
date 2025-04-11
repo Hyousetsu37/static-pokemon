@@ -2,9 +2,9 @@
 interface Props {
   name: string;
   url: string;
-  withAudio: boolean;
+  standAlone?: boolean;
 }
-const { name, url, withAudio } = Astro.props;
+const { name, url, standAlone = false } = Astro.props;
 
 const id = url.split("/").at(-2);
 const audioSrc = `https://raw.githubusercontent.com/PokeAPI/cries/main/cries/pokemon/latest/${id}.ogg`;
@@ -12,13 +12,26 @@ const imgSrc = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites
 ---
 
 <a
-  href=`pokemons/${name}`
-  class=`rounded-2xl flex flex-col justify-center items-center p-2 border-2 border-purple-400  transition-transform ${!withAudio ? 'cursor-pointer hover:-translate-2 ': 'cursor-default'}`
+  href=`/pokemon/${name}`
+  class=` flex flex-col justify-center items-center p-2  ${!standAlone ? 'rounded-2xl cursor-pointer hover:-translate-2 border-2  border-purple-400  transition-transform': 'cursor-default '}`
 >
-  <img transition:name=`card-${name}` src={imgSrc} alt={name} />
-  <span class="capitalize">{name}</span>
   {
-    withAudio && (
+    standAlone && (
+      <h1 class="text-3xl capitalize">
+        #{id} {name}
+      </h1>
+    )
+  }
+
+  <img
+    transition:name=`card-${name}`
+    src={imgSrc}
+    alt={name}
+    class:list={[{ "w-64 h-64": standAlone, "w-22 h-22": !standAlone }]}
+  />
+  {!standAlone && <span class="capitalize">{name}</span>}
+  {
+    standAlone && (
       <audio controls class="mt-5">
         <source src={audioSrc} type="audio/ogg" />
         Your browser does not support the audio element
