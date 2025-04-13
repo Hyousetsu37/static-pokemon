@@ -1,5 +1,6 @@
 ---
 import PokemonCard from "@components/pokemons/PokemonCard.astro";
+import Title from "@components/shared/Title.astro";
 import type {
   PokemonListResponse,
   Result,
@@ -14,13 +15,12 @@ const data = (await resp.json()) as PokemonListResponse;
 ---
 
 <Layout title="Pokemon Static | Home">
-  <h1 class="text-3xl">Pokemon list</h1>
-  <hr />
+  <Title class="text-3xl">Pokemon list</Title>
 
   <section
     aria-label="Pokemon List"
     class="grid grid-cols-1 sm:grid-cols-3 md:grid-cols-4 gap-4 mt-4"
   >
-    {data.results.map(({name,url}: Result) => <PokemonCard name={name}, url={url}/>)}
+    {data.results.map(({name,url}: Result) => <a href={`/pokemon/${name}`}><PokemonCard name={name}, url={url}/></a>)}
   </section>
 </Layout>

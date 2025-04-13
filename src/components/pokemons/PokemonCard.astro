@@ -1,4 +1,7 @@
 ---
+import Title from "@components/shared/Title.astro";
+import { Icon } from "astro-icon/components";
+
 interface Props {
   name: string;
   url: string;
@@ -11,15 +14,26 @@ const audioSrc = `https://raw.githubusercontent.com/PokeAPI/cries/main/cries/pok
 const imgSrc = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${id}.png`;
 ---
 
-<a
-  href=`/pokemon/${name}`
+<div
   class=` flex flex-col justify-center items-center p-2  ${!standAlone ? 'rounded-2xl cursor-pointer hover:-translate-2 border-2  border-purple-400  transition-transform': 'cursor-default '}`
 >
   {
     standAlone && (
-      <h1 class="text-3xl capitalize">
-        #{id} {name}
-      </h1>
+      <div class="flex flex-row gap-2">
+        <div>
+          <button
+            onclick="history.back()"
+            class="hover:underline text-blue-500"
+          >
+            Go back
+          </button>
+          <Title>{name}</Title>
+        </div>
+        <button id="btn-favorite" data-name={name} data-id={id}>
+          <Icon data-outline name="heart-empty" size={50} />
+          <Icon data-full name="heart-full" class="hidden" size={50} />
+        </button>
+      </div>
     )
   }
 
@@ -38,4 +52,12 @@ const imgSrc = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites
       </audio>
     )
   }
-</a>
+</div>
+
+<style>
+  @reference 'tailwindcss';
+
+  #btn-favorite {
+    @apply hover:animate-pulse cursor-pointer text-red-600 flex flex-col justify-end;
+  }
+</style>
