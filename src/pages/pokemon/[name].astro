@@ -26,13 +26,11 @@ const capitalizedName =
 >
   <section class="mt-10 mx-10 flex flex-col justify-center items-center">
     <PokemonCard name={name} , url={url} , standAlone />
-  </section></Layout
->
+  </section>
+</Layout>
+
 <script>
-  interface FavoritePokemon {
-    name: string;
-    id: number;
-  }
+  import type { FavoritePokemon } from "@interfaces/favoritePokemon";
 
   const searchInList = (searchList: FavoritePokemon[], name: string) => {
     return searchList.some((fav) => fav.name === name);
